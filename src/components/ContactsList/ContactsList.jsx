@@ -1,7 +1,8 @@
+import s from '../ContactsList/ContactList.module.css'
 const ContactList = ({ children }) => {
     return (
        
-        <ul>{ children}</ul>
+        <ul className={ s.contactList}>{ children}</ul>
     )
  }
 export default ContactList;

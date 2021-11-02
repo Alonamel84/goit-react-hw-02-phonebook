@@ -1,18 +1,14 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import ContactForm from './components/ContactForm';
 import ContactItem from './components/ContactItem';
 import './App.css';
 import FilterName from './components/FilterName';
 import ContactList from './components/ContactsList/ContactsList';
-
+import s from './components/data/data.module.css';
 class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
@@ -33,22 +29,49 @@ class App extends Component {
       contact.name.toLowerCase().includes(this.state.filter.toLowerCase()),
     );
   };
+  onDelete = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(item => item.id !== id),
+    }));
+  };
+
   render() {
     const filterContacts = this.filter();
     return (
-      <div>
-        <h1>Phonebok</h1>
-        <ContactForm onSubmit={this.handleSubmit}></ContactForm>
-        <h2>Contacts</h2>
+      <div className={s.container}>
+        <h1 className={s.title}>Phonebook</h1>
+        <ContactForm onSubmit={this.handleSubmit} contact={this.state.contacts}></ContactForm>
+        <h2 className={s.title}>Contacts</h2>
         <FilterName value={this.state.filter} onChange={this.filterName}></FilterName>
         <ContactList>
           {filterContacts.map(item => (
-            <ContactItem key={item.id} name={item.name} number={item.number}></ContactItem>
+            <ContactItem
+              key={item.id}
+              name={item.name}
+              number={item.number}
+              onDelete={this.onDelete}
+              id={item.id}
+            ></ContactItem>
           ))}
         </ContactList>
       </div>
     );
   }
 }
+
+ContactForm.propTypes = {
+  contact: PropTypes.array,
+  onSubmit: PropTypes.func,
+};
+FilterName.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
+ContactItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  onDelete: PropTypes.func,
+  id: PropTypes.string,
+};
 
 export default App;

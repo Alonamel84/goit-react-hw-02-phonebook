@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+import s from '../ContactForm/ContactForm.module.css'
 
 class ContactForm extends Component {
     state = {
@@ -10,15 +12,18 @@ class ContactForm extends Component {
     };
     onFormSubmit = e => {
         e.preventDefault();
-        this.props.onSubmit(this.state)
         this.setState({name:'', number:''})
-     };
+        if (this.props.contact.some(item => item.name.toLowerCase() === this.state.name.toLowerCase()))
+            return alert(`${this.state.name} is already in contacts`);
+        this.props.onSubmit(this.state)
+    };
+   
     render() {   
          const { name, number } = this.state;
         return(
         <>
-   <form onSubmit= {this.onFormSubmit}>
-          <label>
+         <form className={ s.form} onSubmit= {this.onFormSubmit}>
+    <label className={ s.label}>
             Name
             <input
               name="name"
@@ -31,11 +36,12 @@ class ContactForm extends Component {
               onChange={this.handleChange}
             />
           </label>
-          <label>
-            Tel
+          <label className={ s.label}>
+            Number
             <input
               type="tel"
-              name="number"
+            name="number"
+            placeholder="Enter phone number"
               pattern="\+?\d{(1, 4)}?[-.\s]?\(?\d{(1, 3)}?\)?[-.\s]?\d
             {(1, 4)}[-.\s]?\d{(1, 4)}[-.\s]?\d{(1, 9)}"
               title="Номер телефона должен состоять цифр и
@@ -46,12 +52,23 @@ class ContactForm extends Component {
             />
           </label>
 
-          <button type="submit">Add contact</button>
+                    <button className={ s.addButton} type="submit">Add contact</button>
         </form>
 
             </>
         )
     }
-}
+};
+ContactForm.propTypes = {
+  name: PropTypes.string,
+  onSubmit: PropTypes.func,
+  pattern:PropTypes.string,
+    title: PropTypes.string,
+  type:PropTypes.string,
+    placeholder:PropTypes.string,
+  value:PropTypes.string,
+  onChange:PropTypes.func,
+
+};
 
 export default ContactForm;

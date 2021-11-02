@@ -1,10 +1,8 @@
-// import { Children } from "react";
-
+import s from '../FilterName/FilterName.module.css'
 const FilterName = ({ value, onChange }) => {
-    console.log(onChange)
     return(
         <>
-    <label>
+            <label className={ s.label}>
           Find contacts by name
                 <input name='filter'
             type="text"
