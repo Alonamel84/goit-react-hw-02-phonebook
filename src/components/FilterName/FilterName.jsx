@@ -1,4 +1,5 @@
 import s from '../FilterName/FilterName.module.css'
+import PropTypes from 'prop-types';
 const FilterName = ({ value, onChange }) => {
     return(
         <>
@@ -15,5 +16,9 @@ const FilterName = ({ value, onChange }) => {
          
    </>
     )
+};
+FilterName.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 export default FilterName;

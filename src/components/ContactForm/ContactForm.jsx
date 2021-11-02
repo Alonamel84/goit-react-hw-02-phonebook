@@ -60,15 +60,8 @@ class ContactForm extends Component {
     }
 };
 ContactForm.propTypes = {
-  name: PropTypes.string,
+  contact: PropTypes.array,
   onSubmit: PropTypes.func,
-  pattern:PropTypes.string,
-    title: PropTypes.string,
-  type:PropTypes.string,
-    placeholder:PropTypes.string,
-  value:PropTypes.string,
-  onChange:PropTypes.func,
-
 };
 
 export default ContactForm;
